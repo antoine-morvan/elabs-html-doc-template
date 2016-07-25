@@ -7,9 +7,10 @@
     <meta name="description" content="#DESCRIPTION">
     <meta name="author" content="#AUTHOR">
 
-    <!-- Le styles -->
-    <link href="#RELATIVE_PATHassets/css/bootstrap.css" rel="stylesheet">
-    <link href="#RELATIVE_PATHassets/js/google-code-prettify/prettify.css" rel="stylesheet">
+    <!-- styles -->
+    <link href="#RELATIVE_PATHassets/css/bootstrap.css" rel="stylesheet"/>
+    <link href="#RELATIVE_PATHassets/css/toc.css" rel="stylesheet"/>
+    <link href="#RELATIVE_PATHassets/js/google-code-prettify/prettify.css" rel="stylesheet"/>
     <style type="text/css">
 		body {
 			padding-top: 60px;
@@ -88,6 +89,8 @@
 	    <p class="download-info"> <a href="#" class="btn btn-primary btn-large">Item Support</a> <a href="#" class="btn btn-large">Self-hosted Forum</a> </p>
 	</div> -->
 
+	<div id="toc"></div>
+
 	#CONTENT
 
   <hr />
@@ -114,9 +117,30 @@
 <script src="#RELATIVE_PATHassets/js/bootstrap-popover.js"></script>
 <script src="#RELATIVE_PATHassets/js/bootstrap-button.js"></script>
 <script src="#RELATIVE_PATHassets/js/bootstrap-collapse.js"></script>
+<script src="#RELATIVE_PATHassets/js/toc.min.js"></script>
 <script type="text/javascript">
 	$('table').addClass('table');
 	$('table').addClass('table-striped');
+	$(document).ready(function() {
+		$('#toc').toc({
+		    'selectors': 'h1,h2,h3,h4', //elements to use as headings
+		    'container': 'body', //element to find all selectors in
+		    'smoothScrolling': true, //enable or disable smooth scrolling on click
+		    'prefix': 'toc', //prefix for anchor tags and class names
+		    'onHighlight': function(el) {}, //called when a new section is highlighted 
+		    'highlightOnScroll': true, //add class to heading that is currently in focus
+		    'highlightOffset': 100, //offset to trigger the next headline
+		    'anchorName': function(i, heading, prefix) { //custom function for anchor name
+		        return prefix+i;
+		    },
+		    'headerText': function(i, heading, $heading) { //custom function building the header-item text
+		        return $heading.text();
+		    },
+			'itemClass': function(i, heading, $heading, prefix) { // custom function for item class
+			  return $heading[0].tagName.toLowerCase();
+			}
+		});
+	});
 </script>
 </body>
 </html>
