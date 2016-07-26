@@ -10,8 +10,7 @@ This repo gives a simple HTML template for having pretty documentation pages. It
  - **\# TITLE** : the page title, to appear in the ```<title>``` tag, as well as in the page's header;
  - **\# AUTHOR** : the author name to appear in the ```<meta name="author" ...>``` tag;
  - **\# DESCRIPTION** : a short description of the page, to appear in the ```<meta name="description" ...>``` tag;
- - **\# COPYRIGHT** : copyright, to appear in the page footer;
- - **\# CONTACT** : contact information, to appear in the page footer;
+ - **\# FOOTER** : HTML code for the page footer;
  - **\# RELATIVE_PATH** : the relative path of the documentation root folder in the hierarchy (i.e., for a file ```/doc/basics/overview.htlm```, the relative path to its root would be ```../../```).
 
 ## Usage
@@ -26,7 +25,7 @@ plugins {
 
 /* 
  * note : several variables come from the gradle.properties file : 
- * version, lang, documentationTitle, author, contact
+ * version, lang, documentationTitle, author
  */
 
 apply plugin: 'org.kordamp.gradle.markdown'
@@ -42,7 +41,7 @@ markdownToHtml.configuration = [tables: true]
 
 def description = documentationTitle
 def year = new Date().format('yyyy')
-def copyright = "$rootProject.name-$version &#8208; &copy; $year $author"
+def docFooter = "$rootProject.name-$version &#8208; &copy; $year $author"
 
 ext.htmlTemplateCacheDir = "$rootProject.rootDir/.htmlTemplateCache/"
 
@@ -78,8 +77,7 @@ task buildDocumentation << {
 			.replaceAll('#TITLE') { documentationTitle }
 			.replaceAll('#AUTHOR') { author }
 			.replaceAll('#DESCRIPTION') { description }
-			.replaceAll('#CONTACT') { contact }
-			.replaceAll('#COPYRIGHT') { copyright }
+			.replaceAll('#FOOTER') { docFooter }
 		
 		// compute the relative path to the root directory
 		def relativePathToParent = file.getParentFile().toPath().relativize( docsDir.toPath() ).toFile().toString()
